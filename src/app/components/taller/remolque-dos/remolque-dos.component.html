@@ -1,0 +1,96 @@
+<div class="grid">
+  <div class="col-12">
+    <form [formGroup]="failuresForm" (ngSubmit)="onSubmit()">
+      <p-card >
+          <div class="p-fluid formgrid grid">
+            <div class="field col-4">
+              <label>&nbsp;</label>
+               <p-dropdown [options]="category" formControlName="srtype" placeholder="Categoría Falla"
+                optionLabel="nombre" optionValue="id" [filter]="true" filterBy="nombre"
+                [ngClass]="{'ng-invalid ng-dirty': submitted && forms['srtype'].errors!['required']}"
+                ></p-dropdown>
+               <ng-template [ngIf]="submitted && forms['srtype'].errors!['required']" [ngIfElse]="emptyDrop">
+                <small class="p-error">Requerido</small>
+              </ng-template>
+              <ng-template #emptyDrop>
+                &nbsp;
+              </ng-template>
+            </div>
+            <div class="field col-7">
+              <label for="failure" class="p-text-bold">Falla</label>
+              <input id="failure" type="text" formControlName="srfailure" pInputText
+              [ngClass]="{'ng-invalid ng-dirty': forms['srfailure'].errors!['required'] && submitted }">
+              <ng-template [ngIf]="submitted && forms['srfailure'].errors!['required']" [ngIfElse]="emptyInput">
+                <small class="p-error">Requerido</small>
+              </ng-template>
+              <ng-template #emptyInput>
+                &nbsp;
+              </ng-template>
+            </div>
+            <div class="field col-1 formgrid grid align-self-center mt-2">
+               <button pButton pRipple type="button" icon="pi pi-plus" class="p-button-rounded" (click)="addForms()"></button>
+            </div>
+            <div class="field-checkbox col-4">
+              <p-toggleButton [onIcon]="'pi pi-check'" formControlName="sroutWorking" offIcon="pi pi-times" ></p-toggleButton>
+              <label for="lastname1" class="p-mr-1">Mandar a Taller </label><span  class=" p-badge p-badge-danger">
+                <label  pTooltip="Darle Prioridad Alta y mandarlo a taller" tooltipPosition="top"  style="font-size: 1.5em">!</label></span>
+            </div>
+            <div class="field p-offset-2 col-6" >
+              <p-dropdown [options]="workship" formControlName="workship" optionLabel="nombre"
+              [ngClass]="{'ng-invalid ng-dirty': workshipSubmitted && forms['dfailure'].errors!['required']}"
+              appendTo="body" [filter]="true" filterBy="nombre"
+              optionValue="id" placeholder="Taller"></p-dropdown>
+              <ng-template [ngIf]="workshipSubmitted && forms['dfailure'].errors!['required']" [ngIfElse]="emptyDroppy">
+                <small class="p-error">Requerido</small>
+              </ng-template>
+              <ng-template #emptyDroppy>
+                &nbsp;
+              </ng-template>
+            </div>
+          </div>
+          <hr>
+          <ng-container *ngFor="let single of dynamicControls; let i = index">
+            <div class="p-fluid formgrid grid" [formGroup]="single">
+              <div class="field col-4">
+                <label>&nbsp;</label>
+                 <p-dropdown formControlName="dynamictype" [options]="category" placeholder="Categoría Falla"
+                  optionLabel="nombre" optionValue="id" appendTo="body" [filter]="true" filterBy="nombre"
+                  [ngClass]="{'ng-invalid ng-dirty': submitted && single.controls['dynamictype'].errors!['required'] }"
+                  ></p-dropdown>
+                 <ng-template [ngIf]="submitted && single.controls['dynamictype'].errors!['required']" [ngIfElse]="emptyInput">
+                  <small class="p-error">Requerido</small>
+                </ng-template>
+                <ng-template #emptyInput >
+                  &nbsp;
+                </ng-template>
+              </div>
+              <div class="field col-7">
+                <label [for]="i" class="p-text-bold">Falla #{{i+2}}</label>
+                <input [id]="i" formControlName="dynamicfailure" type="text" pInputText
+                [ngClass]="{'ng-invalid ng-dirty': single.controls['dynamicfailure'].errors!['required'] && submitted }">
+                <ng-template [ngIf]="submitted && single.controls['dynamicfailure'].errors!['required']" [ngIfElse]="emptyInput">
+                  <small class="p-error">Requerido</small>
+                </ng-template>
+                <ng-template #emptyInput>
+                  &nbsp;
+                </ng-template>
+              </div>
+              <div class="field col-1 formgrid grid align-self-center mt-2">
+                <button pButton pRipple icon="pi pi-minus" class="p-button-rounded" (click)="removeForm(i)"></button>
+              </div>
+              <div class="field-checkbox col-4">
+                <p-toggleButton [onIcon]="'pi pi-check'" formControlName="dynamicoutWorking" offIcon="pi pi-times" ></p-toggleButton>
+                <label for="lastname1">Mandar a Taller</label>
+              </div>
+              <div class="field-checkbox col-8 formgrid grid align-self-center">
+                <label for="disable">Taller: </label> <span>
+                  <i class="pi pi-question-circle p-ml-1" pTooltip="Viene señalado arriba" tooltipPosition="top" tooltipStyleClass="noteTooltip" ></i>
+                </span>
+              </div>
+            </div>
+          </ng-container>
+      </p-card>
+    </form>
+  </div>
+</div>
+

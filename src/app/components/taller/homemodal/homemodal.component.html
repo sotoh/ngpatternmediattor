@@ -1,0 +1,6 @@
+<p-dialog header="Agregar Fallas" [(visible)]="display" (onHide)="onClose(true)"
+  [blockScroll]="true" [modal]="true" [style]="{'width': '70vw'}"
+  [closable]="showNdisable" [draggable]="false">
+  <app-homedialog [data]="sendData" (loadingEmiter)="loadingEvent($event)"
+    (closeEvent)="onClose($event)"></app-homedialog>
+</p-dialog>

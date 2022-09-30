@@ -1,0 +1,73 @@
+<div class="grid">
+  <div class="col-12 p-mb-3">
+    <p-steps [model]="setup" [activeIndex]="step-1"></p-steps>
+  </div>
+  <div class="col-12 mt-2">
+    <div class="flex justify-content-center">
+      <p-splitButton type="button" class="p-ml-1"
+        styleClass="p-button-success" icon="pi"
+        [label]="text" (onClick)="skip()" [disabled]="loadingHome"
+        [model]="items"></p-splitButton>
+    </div>
+  </div>
+  <div class="col-1">
+    <button pButton pRipple type="button" class="p-button-raised
+      p-button-secondary" icon="pi pi-arrow-left" iconPos="left"
+      [disabled]="!backButton" (click)="back()"></button>
+  </div>
+  <div class="col-10">
+    <ng-container *ngIf="steps[0].step === step && steps[0].value">
+      <app-tracto [category]="categories" [incomingForm]="tractoValues"
+        [workship]="workships"></app-tracto>
+    </ng-container>
+    <ng-container *ngIf="steps[1].step === step && steps[1].value"> <!-- *ngIf="step === 2 && !lastStep" -->
+      <app-remolque [category]="categories" [incomingForm]="remolqueOneValues"
+        [workship]="workships" [selectedWorkship]="selectedWorkship"></app-remolque>
+    </ng-container>
+    <ng-container *ngIf="steps[2].step === step && steps[2].value"> <!-- *ngIf="step === 3 && !lastStep" -->
+      <app-dolly [category]="categories" [incomingForm]="dollyValues"
+        [workship]="workships" [selectedWorkship]="selectedWorkship"></app-dolly>
+    </ng-container>
+    <ng-container *ngIf="steps[3].step === step && steps[3].value"> <!-- *ngIf="step === 4" -->
+      <app-remolque-dos [category]="categories"
+        [incomingForm]="remolqueTwoValues" [workship]="workships"
+        [selectedWorkship]="selectedWorkship"></app-remolque-dos>
+    </ng-container>
+    <ng-container *ngIf="steps[4].step === step">
+      <div class="grid justify-content-center">
+        <h2>Click Guardar para salir de la ventana</h2>
+        <!--<label class="m-4">&nbsp;</label>-->
+      </div>
+    </ng-container>
+  </div>
+  <div class="col-1">
+    <div class="flex p-ai-center">
+      <button pButton pRipple (click)="save()" type="button" class="p-ml-1
+        p-button-raised p-button-secondary" icon="pi pi-arrow-right"
+        [disabled]="hidden"></button>
+    </div>
+  </div>
+</div>
+<br>
+<p-progressBar mode="indeterminate" [style]="{'height': '6px'}"
+  *ngIf="loadingHome"></p-progressBar>
+<!--<p-dialog [(visible)]="displayNested" [modal]="true" [style]="{width: '20vw'}"
+  (onHide)="closeDialog()" [closable]="outerLoading" [closeOnEscape]="false"
+  [draggable]="false">
+  <p-header>
+    <ng-container [ngSwitch]="options">
+      <div *ngSwitchCase="1">
+        Talleres
+      </div>
+      <div *ngSwitchCase="2">
+        Categoria Fallas
+      </div>
+    </ng-container>
+  </p-header>
+  <ng-container [ngSwitch]="options">
+    <app-nombre-taller *ngSwitchCase="1" [closed]="output"
+      (loadingEmitter)="loadingEvent($event)"></app-nombre-taller>
+    <app-nombrecategoria *ngSwitchCase="2" [closed]="output"
+      (loadingEmitter)="loadingEvent($event)"></app-nombrecategoria>
+  </ng-container>
+</p-dialog>-->

@@ -1,0 +1,106 @@
+<div class="grid" >
+  <div class="col-12">
+    <form [formGroup]="failureTcForm" (ngSubmit)="onSubmit()">
+      <p-card>
+          <div class="p-fluid formgrid grid" >
+            <div class="field col-4">
+              <label>&nbsp;</label>
+               <p-dropdown  [options]="category" formControlName="tctype" placeholder="Categoría Falla" optionLabel="nombre" optionValue="id"
+               scrollHeight="150px" [ngClass]="{'ng-invalid ng-dirty': submitted && forms['tctype'].errors!['required']}" [filter]="true"
+               filterBy="nombre"
+               ></p-dropdown>
+               <ng-template [ngIf]="submitted && forms['tctype'].errors!['required']" [ngIfElse]="emptyDrop">
+                <small class="p-error">Requerido</small>
+              </ng-template>
+              <ng-template #emptyDrop>
+                &nbsp;
+              </ng-template>
+            </div>
+            <div class="field col-7">
+              <label for="failure" class="p-text-bold">Falla</label>
+              <input id="failure" type="text" formControlName="tcfailure" pInputText
+               [ngClass]="{'ng-invalid ng-dirty': forms['tcfailure'].errors?.['required'] && submitted }">
+              <ng-template [ngIf]="submitted && forms['tcfailure'].errors?.['required']" [ngIfElse]="emptyInput">
+                <small class="p-error">Requerido</small>
+              </ng-template>
+              <ng-template #emptyInput>
+                &nbsp;
+              </ng-template>
+            </div>
+            <div class="field col-1 formgrid grid align-self-center mt-2">
+               <button pButton type="button" pRipple icon="pi pi-plus" class="p-button-rounded" (click)="addControls()"></button>
+            </div>
+            <div class="field col-6">
+              <p-dropdown [options]="workship" optionValue="id" formControlName="tcWorkship" (onChange)="clear()"
+              optionLabel="nombre" placeholder="Taller" [showClear]="true" appendTo="body" [filter]="true"
+              filterBy="nombre"
+              scrollHeight="150px" [ngClass]="{'ng-invalid ng-dirty': workshipSubmitted && forms['tcWorkship'].errors?.['required']}"></p-dropdown>
+              <ng-template [ngIf]="workshipSubmitted && forms['tcWorkship'].errors?.['required']" [ngIfElse]="emptyDroppy">
+                <small class="p-error">Requerido</small>
+              </ng-template>
+              <ng-template #emptyDroppy>
+                &nbsp;
+              </ng-template>
+            </div>
+            <div class="field-checkbox col-4">
+              <div class="field-checkbox">
+                <p-toggleButton id="disable" [onIcon]="'pi pi-check'" offIcon="pi pi-times" (onChange)="clear()" formControlName="tcoutWorking"></p-toggleButton>
+                <label for="disable" class="p-mr-1">Mandar a Taller </label>
+                <span class=" p-badge p-badge-danger">
+                  <label  pTooltip="Darle Prioridad Alta y mandarlo a taller" tooltipPosition="top" style="font-size: 1.5em">!</label></span>
+              </div>
+            </div>
+            <div class="field-checkbox col-2 " style="margin-left: -1rem;">
+              <div class="field-checkbox">
+                <p-toggleButton id="mtto" (onChange)="preventive()" [onIcon]="'pi pi-check'" offIcon="pi pi-times" formControlName="tcMtto"></p-toggleButton>
+                <label for="mtto">Preventivo </label>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <ng-container *ngFor="let single of dynamicControls; let i = index">
+            <div class="p-fluid formgrid grid" [formGroup]="single">
+              <div class="field col-4" #appendynamicdiv>
+                <label>&nbsp;</label>
+                 <p-dropdown formControlName="dynamictype" [options]="category" [filter]="true"
+                 filterBy="nombre"
+                  placeholder="Categoría Falla" optionLabel="nombre" optionValue="id"
+                  [ngClass]="{'ng-invalid ng-dirty': submitted && single.controls['dynamictype'].errors?.['required']}"
+                  appendTo="body"
+                  ></p-dropdown>
+                 <ng-template [ngIf]="submitted && single.controls['dynamictype'].errors?.['required']" [ngIfElse]="emptyInput">
+                  <small class="p-error">Requerido</small>
+                </ng-template>
+                <ng-template #emptyInput >
+                  &nbsp;
+                </ng-template>
+              </div>
+              <div class="field col-7">
+                <label [for]="i" class="p-text-bold">Falla #{{i+2}}</label>
+                <input [id]="i" formControlName="dynamicfailure" type="text" pInputText
+                [ngClass]="{'ng-invalid ng-dirty': single.controls['dynamicfailure'].errors?.['required'] && submitted }">
+                <ng-template [ngIf]="submitted && single.controls['dynamicfailure'].errors?.['required']" [ngIfElse]="emptyInput">
+                  <small class="p-error">Requerido</small>
+                </ng-template>
+                <ng-template #emptyInput>
+                  &nbsp;
+                </ng-template>
+              </div>
+              <div class="field col-1 formgrid grid align-self-center mt-2">
+                <button pButton pRipple icon="pi pi-minus" class="p-button-rounded" (click)="removeControls(i)"></button>
+              </div>
+              <div class="field-checkbox col-4">
+                <p-toggleButton [onIcon]="'pi pi-check'" formControlName="dynamicoutWorking" offIcon="pi pi-times" ></p-toggleButton>
+                <label for="lastname1">Mandar a Taller</label>
+              </div>
+              <div class="field-checkbox col-8 formgrid grid align-self-center">
+                <label for="disable">Taller: </label> <span>
+                  <i class="pi pi-question-circle p-ml-1" pTooltip="Viene señalado arriba" tooltipPosition="top" tooltipStyleClass="noteTooltip" ></i>
+                </span>
+              </div>
+            </div>
+          </ng-container>
+      </p-card>
+    </form>
+  </div>
+</div>
